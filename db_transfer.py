@@ -348,7 +348,9 @@ class DbTransfer(TransferBase):
 class Dbv3Transfer(DbTransfer):
 	def __init__(self):
 		super(Dbv3Transfer, self).__init__()
-		self.key_list += ['id', 'method']
+		self.key_list += ['method']
+		# Comment out useless id for legendsock
+		#self.key_list += ['id', 'method']
 		if get_config().API_INTERFACE == 'sspanelv3ssr':
 			self.key_list += ['obfs', 'protocol']
 		self.start_time = time.time()
@@ -392,16 +394,17 @@ class Dbv3Transfer(DbTransfer):
 			query_sub_when2 += ' WHEN %s THEN d+%s' % (id, int(transfer[1] * self.cfg["transfer_mul"]))
 			update_transfer[id] = transfer
 
-			cur = conn.cursor()
-			try:
-				if id in self.port_uid_table:
-					cur.execute("INSERT INTO `user_traffic_log` (`id`, `user_id`, `u`, `d`, `node_id`, `rate`, `traffic`, `log_time`) VALUES (NULL, '" + \
-						str(self.port_uid_table[id]) + "', '" + str(transfer[0]) + "', '" + str(transfer[1]) + "', '" + \
-						str(self.cfg["node_id"]) + "', '" + str(self.cfg["transfer_mul"]) + "', '" + \
-						self.traffic_format((transfer[0] + transfer[1]) * self.cfg["transfer_mul"]) + "', unix_timestamp()); ")
-			except:
-				logging.warn('no `user_traffic_log` in db')
-			cur.close()
+			# Comment out useless code for legendsock
+			#cur = conn.cursor()
+			#try:
+			#	if id in self.port_uid_table:
+			#		cur.execute("INSERT INTO `user_traffic_log` (`id`, `user_id`, `u`, `d`, `node_id`, `rate`, `traffic`, `log_time`) VALUES (NULL, '" + \
+			#			str(self.port_uid_table[id]) + "', '" + str(transfer[0]) + "', '" + str(transfer[1]) + "', '" + \
+			#			str(self.cfg["node_id"]) + "', '" + str(self.cfg["transfer_mul"]) + "', '" + \
+			#			self.traffic_format((transfer[0] + transfer[1]) * self.cfg["transfer_mul"]) + "', unix_timestamp()); ")
+			#except:
+			#	logging.warn('no `user_traffic_log` in db')
+			#cur.close()
 
 			if query_sub_in is not None:
 				query_sub_in += ',%s' % id
@@ -417,19 +420,20 @@ class Dbv3Transfer(DbTransfer):
 			cur.execute(query_sql)
 			cur.close()
 
-		try:
-			cur = conn.cursor()
-			cur.execute("INSERT INTO `ss_node_online_log` (`id`, `node_id`, `online_user`, `log_time`) VALUES (NULL, '" + \
-					str(self.cfg["node_id"]) + "', '" + str(alive_user_count) + "', unix_timestamp()); ")
-			cur.close()
-
-			cur = conn.cursor()
-			cur.execute("INSERT INTO `ss_node_info_log` (`id`, `node_id`, `uptime`, `load`, `log_time`) VALUES (NULL, '" + \
-					str(self.cfg["node_id"]) + "', '" + str(self.uptime()) + "', '" + \
-					str(self.load()) + "', unix_timestamp()); ")
-			cur.close()
-		except:
-			logging.warn('no `ss_node_online_log` or `ss_node_info_log` in db')
+		# Comment out useless code for legendsock
+		#try:
+		#	cur = conn.cursor()
+		#	cur.execute("INSERT INTO `ss_node_online_log` (`id`, `node_id`, `online_user`, `log_time`) VALUES (NULL, '" + \
+		#			str(self.cfg["node_id"]) + "', '" + str(alive_user_count) + "', unix_timestamp()); ")
+		#	cur.close()
+		#
+		#	cur = conn.cursor()
+		#	cur.execute("INSERT INTO `ss_node_info_log` (`id`, `node_id`, `uptime`, `load`, `log_time`) VALUES (NULL, '" + \
+		#			str(self.cfg["node_id"]) + "', '" + str(self.uptime()) + "', '" + \
+		#			str(self.load()) + "', unix_timestamp()); ")
+		#	cur.close()
+		#except:
+		#	logging.warn('no `ss_node_online_log` or `ss_node_info_log` in db')
 
 		conn.close()
 		return update_transfer
@@ -441,24 +445,25 @@ class Dbv3Transfer(DbTransfer):
 		except Exception as e:
 			keys = self.key_list
 
-		cur = conn.cursor()
+		# Comment out useless code for legendsock
+		#cur = conn.cursor()
 
-		node_info_keys = ['traffic_rate']
-		cur.execute("SELECT " + ','.join(node_info_keys) +" FROM ss_node where `id`='" + str(self.cfg["node_id"]) + "'")
-		nodeinfo = cur.fetchone()
+		#node_info_keys = ['traffic_rate']
+		#cur.execute("SELECT " + ','.join(node_info_keys) +" FROM ss_node where `id`='" + str(self.cfg["node_id"]) + "'")
+		#nodeinfo = cur.fetchone()
+		#
+		#if nodeinfo == None:
+		#	rows = []
+		#	cur.close()
+		#	conn.commit()
+		#	logging.warn('None result when select node info from ss_node in db, maybe you set the incorrect node id')
+		#	return rows
+		#cur.close()
 
-		if nodeinfo == None:
-			rows = []
-			cur.close()
-			conn.commit()
-			logging.warn('None result when select node info from ss_node in db, maybe you set the incorrect node id')
-			return rows
-		cur.close()
-
-		node_info_dict = {}
-		for column in range(len(nodeinfo)):
-			node_info_dict[node_info_keys[column]] = nodeinfo[column]
-		self.cfg['transfer_mul'] = float(node_info_dict['traffic_rate'])
+		#node_info_dict = {}
+		#for column in range(len(nodeinfo)):
+		#	node_info_dict[node_info_keys[column]] = nodeinfo[column]
+		#self.cfg['transfer_mul'] = float(node_info_dict['traffic_rate'])
 
 		cur = conn.cursor()
 		cur.execute("SELECT " + ','.join(keys) + " FROM user")
