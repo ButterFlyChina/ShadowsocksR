@@ -1,6 +1,8 @@
 ShadowsocksR
 ===========
 
+[![Build Status]][Travis CI]
+
 A fast tunnel proxy that helps you bypass firewalls.
 
 Server
@@ -11,16 +13,16 @@ Server
 Debian / Ubuntu:
 
     apt-get install git
-    git clone https://github.com/breakwa11/shadowsocks.git
+    git clone https://github.com/shadowsocksr/shadowsocksr.git
 
 CentOS:
 
     yum install git
-    git clone https://github.com/breakwa11/shadowsocks.git
+    git clone https://github.com/shadowsocksr/shadowsocksr.git
 
 Windows:
 
-    git clone https://github.com/breakwa11/shadowsocks.git
+    git clone https://github.com/shadowsocksr/shadowsocksr.git
 
 ### Usage for single user on linux platform
 
@@ -94,7 +96,7 @@ Bugs and Issues
 [Build Status]:      https://travis-ci.org/shadowsocksr/shadowsocksr.svg?branch=manyuser
 [Debian sid]:        https://packages.debian.org/unstable/python/shadowsocks
 [iOS]:               https://github.com/shadowsocks/shadowsocks-iOS/wiki/Help
-[Issue Tracker]:     https://github.com/breakwa11/shadowsocks/issues?state=open
+[Issue Tracker]:     https://github.com/shadowsocksr/shadowsocksr/issues?state=open
 [OpenWRT]:           https://github.com/shadowsocks/openwrt-shadowsocks
 [macOS]:             https://github.com/shadowsocksr/ShadowsocksX-NG
 [Travis CI]:         https://travis-ci.org/shadowsocksr/shadowsocksr
